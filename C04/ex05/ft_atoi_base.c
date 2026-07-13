@@ -6,62 +6,65 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 19:31:16 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/12 20:47:13 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/13 17:55:40 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(char *str)
+int	ft_clean_space(char *str, int *s)
 {
 	int	i;
+	int	sign;
 
 	i = 0;
-	while (str[i] != '\0')
+	sign = 1;
+	while (str[i] == ' ' || (9 <= str[i] && str[i] <= 13))
 		i++;
+	while (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	*s = sign;
 	return (i);
-}
-
-int	ft_is_number(char c, int base)
-{
-	if (base == 2 && ('0' <= c && c <= '1'))
-		return (1);
-	else if (base == 8 && ('0' <= c && c <= '7'))
-		return (1);
-	else if (base == 10 && ('0' <= c && c <= '9'))
-		return (1);
-	else if (base == 16 && (('0' <= c && c <= '9')
-			|| ('a' <= c && c <= 'f') || ('A' <= c && c <= 'F')))
-		return (1);
-	else
-		return (0);
-}
-
-void	ft_add_hex(int *nbr, char c)
-{
-	if ('a' <= c && c <= 'f')
-		*nbr += (c - 'a' + 10);
-	else if ('A' <= c && c <= 'F')
-		*nbr += (c - 'A' + 10);
-	else if ('0' <= c && c <= '9')
-		*nbr += (c - '0');
 }
 
 int	ft_valid_base(char *base)
 {
-	int	base_len;
+	int	i;
+	int	j;
 
-	base_len = ft_strlen(base);
-	if (base[0] != '0' && base[0] != 'p')
+	i = 0;
+	if (base[0] == '\0' || base[1] == '\0')
 		return (0);
-	if (base_len == 2)
-		return (1);
-	else if (base_len == 8)
-		return (1);
-	else if (base_len == 10)
-		return (1);
-	else if (base_len == 16)
-		return (1);
-	else
-		return (0);
+	while (base[i])
+	{
+		if (base[i] <= 32 || base[i] > 126
+			|| base[i] == '-' || base[i] == '+')
+			return (0);
+		j = i + 1;
+		while (base[j])
+		{
+			if (base[i] == base[j])
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (i);
+}
+int	ft_valid_number(char c, char *base)
+{
+	int	i;
+
+	i = 0;
+	while (base[i])
+	{
+		if (c == base[i])
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
 int	ft_atoi_base(char *str, char *base)
@@ -73,22 +76,16 @@ int	ft_atoi_base(char *str, char *base)
 
 	if (! ft_valid_base(base))
 		return (0);
-	i = 0;
-	sign = 1;
 	sum = 0;
-	base_type = ft_strlen(base);
-	while (str[i] == ' ' || (9 <= str[i] && str[i] <= 13))
-		i++;
-	while (str[i] == '+' || str[i] == '-')
-		if (str[i++] == '-')
-			sign *= -1;
-	while (ft_is_number(str[i], base_type))
+	base_type = ft_valid_base(base);
+	if (base_type < 2)
+		return (0);
+	i = ft_clean_space(str, &sign);
+	while (ft_valid_number(str[i], base) != (-1))
 	{
 		sum *= base_type;
-		if (base_type == 16)
-			ft_add_hex(&sum, str[i++]);
-		else
-			sum += (str[i++] - '0');
+		sum += ft_valid_number(str[i], base);
+		i++;
 	}
 	return (sign * sum);
 }

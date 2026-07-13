@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:29:44 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/12 20:45:55 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/13 15:47:49 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,27 @@ int	ft_strlen(char *str)
 
 int	ft_valid_base(char *base)
 {
-	int	base_len;
+	int	i;
+	int	j;
 
-	base_len = ft_strlen(base);
-	if (base[0] != '0' && base[0] != 'p')
+	i = 0;
+	if (base[0] == '\0' || base[1] == '\0')
 		return (0);
-	if (base_len == 2)
-		return (1);
-	else if (base_len == 8)
-		return (1);
-	else if (base_len == 10)
-		return (1);
-	else if (base_len == 16)
-		return (1);
-	else
-		return (0);
+	while (base[i])
+	{
+		if (base[i] <= 32 || base[i] > 126
+			|| base[i] == '-' || base[i] == '+')
+			return (0);
+		j = i + 1;
+		while (base[j])
+		{
+			if (base[i] == base[j])
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (i);
 }
 
 void	ft_putnbr_base(int nbr, char *base)
@@ -70,6 +76,24 @@ void	ft_putnbr_base(int nbr, char *base)
 		arr[i++] = base[num % base_type];
 		num /= base_type;
 	}
-	while (i >= 0)
-		ft_putchar(arr[--i]);
+	while (--i >= 0)
+		ft_putchar(arr[i]);
 }
+/* #include <stdio.h>
+int main(void)
+{
+	char *binary = "01";
+	char *octal = "01234567";
+	//char *decimal = "0123456789";
+	char *hex = "0123456789abcdef";
+	char *pony = "abc123def9";
+
+	ft_putnbr_base(234234, binary);
+	ft_putchar('\n');
+	ft_putnbr_base(234234, octal);
+	ft_putchar('\n');
+	ft_putnbr_base(234234, pony);
+	ft_putchar('\n');
+	ft_putnbr_base(234234, hex);
+	ft_putchar('\n');
+} */
