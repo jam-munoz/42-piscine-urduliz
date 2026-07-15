@@ -6,13 +6,13 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 21:04:51 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/14 14:52:05 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/14 18:41:34 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_ABS_H
-#define FT_ABS_H
+# define FT_ABS_H
 
-#define ABS(Value) (Value >= 0 ? Value : -Value)
+# define ABS(Value) (((Value >> 31) | 1) * Value)
 
 #endif

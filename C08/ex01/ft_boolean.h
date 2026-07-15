@@ -6,24 +6,24 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 20:41:24 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/13 21:02:34 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/14 18:32:34 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_BOOLEAN_H
-#define FT_BOOLEAN_H
+# define FT_BOOLEAN_H
 
-#include <unistd.h>
+# include <unistd.h>
 
-#define EVEN_MSG "I have an even number of arguments.\n"
-#define ODD_MSG "I have an odd number of arguments.\n"
-#define TRUE 1
-#define FALSE 0
-#define SUCCESS 0
-#define EVEN(nbr) (nbr % 2 == 0)
+# define EVEN_MSG "I have an even number of arguments.\n"
+# define ODD_MSG "I have an odd number of arguments.\n"
+# define TRUE 1
+# define FALSE 0
+# define SUCCESS 0
+# define EVEN(nbr) (nbr % 2 == 0)
 
-typedef int t_bool;
-void ft_putstr(char *str);
-t_bool ft_is_even(int nbr);
+typedef int	t_bool;
+void	ft_putstr(char *str);
+t_bool	ft_is_even(int nbr);
 
 #endif

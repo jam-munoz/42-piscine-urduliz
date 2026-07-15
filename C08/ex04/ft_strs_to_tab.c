@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 15:25:06 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/14 16:47:11 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/14 18:26:20 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	ft_strlen(char *str)
 		i++;
 	return (i);
 }
+
 char	*ft_strdup(char *src)
 {
 	int		len;
@@ -42,10 +43,10 @@ char	*ft_strdup(char *src)
 	return (dup);
 }
 
-struct	s_stock_str *ft_strs_to_tab(int ac, char **av)
+struct	s_stock_str	*ft_strs_to_tab(int ac, char **av)
 {
-	int	i;
-	struct s_stock_str *array;
+	int					i;
+	struct s_stock_str	*array;
 
 	array = malloc((ac + 1) * sizeof(t_stock_str));
 	if (array == NULL)
@@ -76,7 +77,8 @@ int main(void)
 	converted = ft_strs_to_tab(size, strings);
 	while (i < size)
 	{
-		printf("size: %d, str: %s, copy: %s\n", converted[i].size, converted[i].str, converted[i].copy);
+		printf("size: %d, str: %s, copy: %s\n",
+			converted[i].size, converted[i].str, converted[i].copy);
 		i++;
 	}
 	free(converted);

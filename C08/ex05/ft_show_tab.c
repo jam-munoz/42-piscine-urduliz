@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 16:54:27 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/14 17:50:32 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/14 18:23:58 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_show_tab(struct s_stock_str *par)
 	int	i;
 
 	i = 0;
-	while (par[i].size)
+	while (par[i].str)
 	{
 		ft_putstr(par[i].str);
 		ft_putnbr(par[i].size);
