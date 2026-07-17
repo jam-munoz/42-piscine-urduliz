@@ -21,9 +21,9 @@ int main(int argc, char **argv)
         {
             if (argv[1][i] == argv[2][j])
             {
-                if (is_repeat[argv[1][i]] == 0)
+                if (is_repeat[(unsigned char)argv[1][i]] == 0)
                 {
-                    is_repeat[argv[2][j]] = 1;
+                    is_repeat[(unsigned char)argv[2][j]] = 1;
                     printf("%c", argv[2][j]);
                 }
             }
