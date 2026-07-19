@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 18:18:35 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/19 19:55:37 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/19 20:03:57 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int ft_atoi(char *str)
+int	ft_atoi(char *str)
 {
-	int i = 0;
-	int sum = 0;
-	int sign = -1;
+	int	i;
+	int	sum;
+	int	sign;
+
+	i = 0;
+	sum = 0;
+	sign = -1;
 	while (str[i] == ' ' || (9 <= str[i] && str[i] <= 13))
 		i++;
 	if (str[i] == '+' || str[i] == '-')
@@ -27,7 +31,7 @@ int ft_atoi(char *str)
 			sign = 1;
 		i++;
 	}
-	while(str[i] && ('0' <= str[i] && str[i] <= '9'))
+	while (str[i] && ('0' <= str[i] && str[i] <= '9'))
 	{
 		sum *= 10;
 		sum += str[i] - '0';
@@ -47,7 +51,8 @@ void	ft_putstr(char *str)
 		i++;
 	}
 }
-void ft_print_header(char *argv, int i)
+
+void	ft_print_header(char *argv, int i)
 {
 	if (i == 3)
 		ft_putstr("==> ");
@@ -73,11 +78,11 @@ void	ft_copy_fd(int fd, int n)
 	free(buf);
 }
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	char	*file;
-	int	i;
-	int	fd;
+	int		i;
+	int		fd;
 
 	i = 3;
 	if (argv[1][0] == '-' && argv[1][1] == 'c')
