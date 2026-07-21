@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 15:09:26 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/20 20:09:49 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/21 18:38:40 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	ft_error_open(int i, char *argv[])
 void ft_print_line(char *buf, int i, int *j)
 {
 	int	offset;
+	int	num;
 
 	offset = 0;
 	ft_putchar('|');
@@ -57,14 +58,19 @@ void ft_print_line(char *buf, int i, int *j)
 	{
 		if (' ' <= buf[*j] && buf[*j] <= '~')
 			ft_putchar(buf[*j]);
+		else
+			ft_putchar('.');
 		*j = *j + 1;
 	}
 	ft_putstr("|\n", 1);
-	while (offset < 4)
-	{
+	num = i;
+	while (num > 0 && offset++ < 8)
+		num /= 16;
+	if (offset < 2)
+		offset = 2;
+	offset = 8 - offset;
+	while (offset-- > 0)
 		ft_putchar('0');
-		zero /= ;
-	}
 	ft_putnbr_hex(i);
 	ft_putstr("  ", 1);
 }
@@ -73,6 +79,7 @@ void	ft_copy_fd(int fd)
 {
 	int		i;
 	int		j;
+	int		k;
 	char	*buf;
 	int		bytes_read;
 
@@ -80,13 +87,17 @@ void	ft_copy_fd(int fd)
 	j = 0;
 	buf = malloc(100000000);
 	bytes_read = read(fd, buf, 100000000);
+	ft_putstr("00000000  ", 1);
 	while (i < bytes_read)
 	{
 		ft_putnbr_hex((unsigned char)buf[i]);
 		ft_putchar(' ');
 		i++;
-		if (i % 8 == 0)
+		if (i % 8 == 0 || i >= bytes_read)
 			ft_putchar(' ');
+		k = i % 8;
+		while (i >= bytes_read && k++ < 8)
+			ft_putstr("   ", 1);
 		if (i % 16 == 0 || i == bytes_read)
 			ft_print_line(buf, i, &j);
 	}
@@ -104,8 +115,7 @@ int	main(int argc, char *argv[])
 		ft_copy_fd(0);
 		return (0);
 	}
-	i = 1;
-	ft_putstr("00000000  ", 1);
+	i = 2;
 	while (i < argc)
 	{
 		file = argv[i];
@@ -116,6 +126,7 @@ int	main(int argc, char *argv[])
 		{
 			ft_copy_fd(fd);
 			close(fd);
+			ft_putchar('\n');
 		}
 		i++;
 	}
