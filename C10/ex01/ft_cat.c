@@ -6,13 +6,12 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 15:06:42 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/20 14:33:14 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/22 13:53:36 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include <fcntl.h>
-#include <libgen.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -30,12 +29,7 @@ void	ft_putstr(char *str, int fd)
 
 void	ft_error_open(int i, char *argv[])
 {
-	char	arr[8];
-	char	*base;
-
-	base = &arr[0];
-	base = basename(argv[0]);
-	ft_putstr(base, 2);
+	ft_putstr(argv[0], 2);
 	ft_putstr(": ", 2);
 	ft_putstr(argv[i], 2);
 	ft_putstr(": ", 2);

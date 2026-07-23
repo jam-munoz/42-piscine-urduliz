@@ -6,19 +6,18 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 18:18:35 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/20 14:14:07 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/23 10:15:23 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include <fcntl.h>
-#include <libgen.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 void	ft_print_header(char *argv, int i);
-void	ft_putstr(char *str);
+void	ft_putstr(char *str, int fd);
 
 long	ft_atoi(char *str)
 {
@@ -48,8 +47,8 @@ int	ft_check_args(int argc, char **argv)
 
 	if (argc < 3 || argv[1][0] != '-' || argv[1][1] != 'c' || argv[1][2])
 	{
-		ft_putstr("ft_tail: option requires an argument -- 'c'\n");
-		ft_putstr("usage: tail -c number [file ...]\n");
+		ft_putstr("./ft_tail: option requires an argument -- 'c'\n", 2);
+		ft_putstr("usage: ./ft_tail -c number [file ...]\n", 2);
 		return (0);
 	}
 	i = 0;
@@ -57,9 +56,9 @@ int	ft_check_args(int argc, char **argv)
 	{
 		if (!argv[2][0] || !('0' <= argv[2][i] && argv[2][i] <= '9'))
 		{
-			ft_putstr("ft_tail: invalid number of bytes: '");
-			ft_putstr(argv[2]);
-			ft_putstr("'\n");
+			ft_putstr("./ft_tail: invalid number of bytes: '", 2);
+			ft_putstr(argv[2], 2);
+			ft_putstr("'\n", 2);
 			return (0);
 		}
 		i++;
@@ -87,16 +86,11 @@ void	ft_copy_fd(int fd, long n)
 
 void	ft_error_open(int i, char *argv[])
 {
-	char	arr[8];
-	char	*base;
-
-	base = &arr[0];
-	base = basename(argv[0]);
-	ft_putstr(base);
-	ft_putstr(": cannot open '");
-	ft_putstr(argv[i]);
-	ft_putstr("' for reading: ");
-	ft_putstr(strerror(errno));
+	ft_putstr(argv[0], 2);
+	ft_putstr(": cannot open '", 2);
+	ft_putstr(argv[i], 2);
+	ft_putstr("' for reading: ", 2);
+	ft_putstr(strerror(errno), 2);
 	write(1, "\n", 1);
 }
 
@@ -123,4 +117,5 @@ int	main(int argc, char *argv[])
 		close(fd);
 		i++;
 	}
+	return (0);
 }
