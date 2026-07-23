@@ -1,35 +1,29 @@
 #include <unistd.h>
-#include <stdio.h>
 
-void ft_putchar(char c)
+int main(int argc, char *argv[])
 {
-    write(1, &c, 1);
-}
+	if (argc != 3)
+	{
+		write(1, "\n", 1);
+		return 0;
+	}
 
-int main(int argc, char **argv)
-{
-    int i = 0;
-    int j = 0;
-    int is_repeat[256] = {0};
-
-    if (argc != 3)
-        return 0;
-    while (argv[1][i])
-    {
-        j = 0;
-        while (argv[2][j])
-        {
-            if (argv[1][i] == argv[2][j])
-            {
-                if (is_repeat[(unsigned char)argv[1][i]] == 0)
-                {
-                    is_repeat[(unsigned char)argv[2][j]] = 1;
-                    printf("%c", argv[2][j]);
-                }
-            }
-            j++;
-        }
-        i++;
-    }
-    return 0;
+	int i = 0;
+	int j;
+	int repeat[256] = { 0 };
+	while(argv[1][i])
+	{
+		j = 0;
+		while(argv[2][j])
+		{
+			if (argv[1][i] == argv[2][j] && !repeat[(unsigned char)argv[1][i]])
+			{
+				repeat[(unsigned char)argv[1][i]] = 1;
+				write(1, &argv[1][i], 1);
+			}
+			j++;
+		}
+		i++;
+	}
+	write(1, "\n", 1);
 }
