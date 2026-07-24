@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 20:46:24 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/23 11:06:04 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/23 16:02:50 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_is_sort(int *tab, int length, int (*f)(int, int))
 		i = 0;
 		while (i < (length - 1))
 		{
-			if ((*f)(tab[i], tab[1 + 1]) > 0)
+			if ((*f)(tab[i], tab[i + 1]) > 0)
 				return (0);
 			i++;
 		}
