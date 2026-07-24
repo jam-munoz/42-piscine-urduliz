@@ -6,11 +6,11 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:29:44 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/20 18:46:56 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/22 13:33:55 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "ft_hexdump.h"
 
 char	*ft_strcpy(char *dest, char *src)
 {
@@ -28,21 +28,6 @@ char	*ft_strcpy(char *dest, char *src)
 	}
 	dest[len] = '\0';
 	return (dest);
-}
-
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
 }
 
 int	ft_valid_base(char *base)
@@ -70,6 +55,28 @@ int	ft_valid_base(char *base)
 	return (i);
 }
 
+void	ft_putnbr_hex_addr(int num)
+{
+	int	digits;
+	int	n;
+
+	digits = 0;
+	n = num;
+	while (n > 0)
+	{
+		n /= 16;
+		digits++;
+	}
+	if (digits < 2)
+		digits = 2;
+	while (digits < 8)
+	{
+		ft_putchar('0');
+		digits++;
+	}
+	ft_putnbr_hex(num);
+}
+
 void	ft_putnbr_hex(int num)
 {
 	char	arr[32];
@@ -79,7 +86,8 @@ void	ft_putnbr_hex(int num)
 	ft_strcpy(base, "0123456789abcdef");
 	if (num == 0)
 	{
-		ft_putchar(base[0]);
+		ft_putchar('0');
+		ft_putchar('0');
 		return ;
 	}
 	if (num < 16)

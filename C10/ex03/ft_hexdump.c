@@ -6,129 +6,114 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 15:09:26 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/21 18:38:40 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/22 14:21:00 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <fcntl.h>
-#include <libgen.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include "ft_hexdump.h"
 
-void	ft_putnbr_hex(int num);
-void	ft_putchar(char c);
-
-void	ft_putstr(char *str, int fd)
+void	ft_hexdump_byte(unsigned char c, char *row, int *col, int *total)
 {
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
+	if (*col == 0)
 	{
-		write(fd, &str[i], 1);
-		i++;
+		ft_putnbr_hex_addr(*total);
+		ft_putstr("  ", 1);
+	}
+	row[*col] = (char)c;
+	ft_putnbr_hex(c);
+	ft_putchar(' ');
+	*col = *col + 1;
+	*total = *total + 1;
+	if (*col % 8 == 0)
+		ft_putchar(' ');
+	if (*col == 16)
+	{
+		ft_print_ascii(row, 16);
+		*col = 0;
 	}
 }
 
-void	ft_error_open(int i, char *argv[])
+void	ft_hexdump_flush(char *row, int *col, int *total)
 {
-	char	arr[8];
-	char	*base;
+	int	k;
 
-	base = &arr[0];
-	base = basename(argv[0]);
-	ft_putstr(base, 2);
-	ft_putstr(": ", 2);
-	ft_putstr(argv[i], 2);
-	ft_putstr(": ", 2);
-	ft_putstr(strerror(errno), 2);
-	write(1, "\n", 1);
-}
-
-void ft_print_line(char *buf, int i, int *j)
-{
-	int	offset;
-	int	num;
-
-	offset = 0;
-	ft_putchar('|');
-	while (*j < i)
+	if (*total == 0)
+		return ;
+	if (*col > 0)
 	{
-		if (' ' <= buf[*j] && buf[*j] <= '~')
-			ft_putchar(buf[*j]);
-		else
-			ft_putchar('.');
-		*j = *j + 1;
+		k = *col;
+		while (k < 16)
+		{
+			ft_putstr("   ", 1);
+			k++;
+			if (k == 8)
+				ft_putstr(" ", 1);
+		}
+		ft_putstr(" ", 1);
+		ft_print_ascii(row, *col);
 	}
-	ft_putstr("|\n", 1);
-	num = i;
-	while (num > 0 && offset++ < 8)
-		num /= 16;
-	if (offset < 2)
-		offset = 2;
-	offset = 8 - offset;
-	while (offset-- > 0)
-		ft_putchar('0');
-	ft_putnbr_hex(i);
-	ft_putstr("  ", 1);
+	ft_putnbr_hex_addr(*total);
+	ft_putstr("\n", 1);
 }
 
-void	ft_copy_fd(int fd)
+void	ft_copy_fd(int fd, char *row, int *col, int *total)
 {
-	int		i;
-	int		j;
-	int		k;
 	char	*buf;
 	int		bytes_read;
+	int		i;
 
-	i = 0;
-	j = 0;
 	buf = malloc(100000000);
 	bytes_read = read(fd, buf, 100000000);
-	ft_putstr("00000000  ", 1);
+	i = 0;
 	while (i < bytes_read)
 	{
-		ft_putnbr_hex((unsigned char)buf[i]);
-		ft_putchar(' ');
+		ft_hexdump_byte((unsigned char)buf[i], row, col, total);
 		i++;
-		if (i % 8 == 0 || i >= bytes_read)
-			ft_putchar(' ');
-		k = i % 8;
-		while (i >= bytes_read && k++ < 8)
-			ft_putstr("   ", 1);
-		if (i % 16 == 0 || i == bytes_read)
-			ft_print_line(buf, i, &j);
 	}
 	free(buf);
 }
 
-int	main(int argc, char *argv[])
+void	ft_process_arg(char *argv[], int i, char *row, int **coltotal)
 {
 	char	*file;
-	int		i;
 	int		fd;
 
+	file = argv[i];
+	if (file[0] == '-' && file[1] == 'C' && file[2] == '\0')
+		return ;
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		ft_error_open(i, argv);
+	else
+	{
+		ft_copy_fd(fd, row, coltotal[0], coltotal[1]);
+		close(fd);
+	}
+}
+
+int	main(int argc, char *argv[])
+{
+	char	row[16];
+	int		i;
+	int		col;
+	int		total;
+	int		*coltotal[2];
+
+	col = 0;
+	total = 0;
+	coltotal[0] = &col;
+	coltotal[1] = &total;
 	if (argc < 2)
+		ft_copy_fd(0, row, &col, &total);
+	else
 	{
-		ft_copy_fd(0);
-		return (0);
-	}
-	i = 2;
-	while (i < argc)
-	{
-		file = argv[i];
-		fd = open(file, O_RDONLY);
-		if (fd == -1)
-			ft_error_open(i, argv);
-		else
+		i = 1;
+		while (i < argc)
 		{
-			ft_copy_fd(fd);
-			close(fd);
-			ft_putchar('\n');
+			ft_process_arg(argv, i, row, coltotal);
+			i++;
 		}
-		i++;
 	}
+	ft_hexdump_flush(row, &col, &total);
 	return (0);
 }
