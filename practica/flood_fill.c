@@ -12,7 +12,7 @@ void flood_util(char **tab, t_point size, t_point begin, char target)
 		return;
 	if (tab[begin.y][begin.x] != target)
 		return;
-	tab[begin.x][begin.y] = 'F';
+	tab[begin.y][begin.x] = 'F';
 	next.x = begin.x + 1;
 	next.y = begin.y;
 	flood_util(tab, size, next, target);
