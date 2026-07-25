@@ -6,62 +6,63 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 13:26:31 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/22 14:10:24 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/25 23:09:45 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_hexdump.h"
 
-void	ft_putchar(char c)
+void	ft_put_hex(unsigned int n, int len)
 {
-	write(1, &c, 1);
+	char	*hex;
+
+	hex = "0123456789abcdef";
+	if (len > 1)
+		ft_put_hex(n / 16, len - 1);
+	write(1, &hex[n % 16], 1);
 }
 
-int	ft_strlen(char *str)
+void	ft_putstr(int fd, char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-void	ft_putstr(char *str, int fd)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
+	while (str && str[i])
 	{
 		write(fd, &str[i], 1);
 		i++;
 	}
 }
 
-void	ft_error_open(int i, char *argv[])
+int	ft_puterror(char *prog, char *file)
 {
-	ft_putstr(argv[0], 2);
-	ft_putstr(": ", 2);
-	ft_putstr(argv[i], 2);
-	ft_putstr(": ", 2);
-	ft_putstr(strerror(errno), 2);
+	ft_putstr(2, basename(prog));
+	ft_putstr(2, ": ");
+	if (file)
+	{
+		ft_putstr(2, file);
+		ft_putstr(2, ": ");
+	}
+	ft_putstr(2, strerror(errno));
 	write(2, "\n", 1);
+	return (-1);
 }
 
-void	ft_print_ascii(char *row, int len)
+void	ft_handle_padding(t_tool *t, int i, int size)
 {
-	int	i;
-
-	i = 0;
-	ft_putchar('|');
-	while (i < len)
+	if (t->mode == 'C')
 	{
-		if (' ' <= row[i] && row[i] <= '~')
-			ft_putchar(row[i]);
-		else
-			ft_putchar('.');
-		i++;
+		while (i < 16)
+		{
+			write(1, "   ", 3);
+			if (i == 7)
+				write(1, " ", 1);
+			i++;
+		}
 	}
-	ft_putstr("|\n", 1);
+	ft_put_ascii(t, size);
+	write(1, "\n", 1);
+	i = -1;
+	while (++i < 16)
+		t->prev[i] = t->buffer[i];
 }

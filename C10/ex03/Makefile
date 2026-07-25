@@ -6,7 +6,7 @@
 #    By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/07/20 15:09:33 by joamunoz          #+#    #+#              #
-#    Updated: 2026/07/22 13:38:34 by joamunoz         ###   ########.fr        #
+#    Updated: 2026/07/25 23:29:06 by joamunoz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 INCLUDES = includes
 
-MY_SOURCES = ft_hexdump.c ft_putnbr_hex.c helpers.c
+MY_SOURCES = ft_hexdump.c main.c helpers.c
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
 
 all: $(NAME)

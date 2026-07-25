@@ -6,114 +6,119 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 15:09:26 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/22 14:21:00 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/25 23:09:20 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_hexdump.h"
 
-void	ft_hexdump_byte(unsigned char c, char *row, int *col, int *total)
+int	ft_is_equal(char *s1, char *s2, int size)
 {
-	if (*col == 0)
-	{
-		ft_putnbr_hex_addr(*total);
-		ft_putstr("  ", 1);
-	}
-	row[*col] = (char)c;
-	ft_putnbr_hex(c);
-	ft_putchar(' ');
-	*col = *col + 1;
-	*total = *total + 1;
-	if (*col % 8 == 0)
-		ft_putchar(' ');
-	if (*col == 16)
-	{
-		ft_print_ascii(row, 16);
-		*col = 0;
-	}
-}
+	int	i;
 
-void	ft_hexdump_flush(char *row, int *col, int *total)
-{
-	int	k;
-
-	if (*total == 0)
-		return ;
-	if (*col > 0)
-	{
-		k = *col;
-		while (k < 16)
-		{
-			ft_putstr("   ", 1);
-			k++;
-			if (k == 8)
-				ft_putstr(" ", 1);
-		}
-		ft_putstr(" ", 1);
-		ft_print_ascii(row, *col);
-	}
-	ft_putnbr_hex_addr(*total);
-	ft_putstr("\n", 1);
-}
-
-void	ft_copy_fd(int fd, char *row, int *col, int *total)
-{
-	char	*buf;
-	int		bytes_read;
-	int		i;
-
-	buf = malloc(100000000);
-	bytes_read = read(fd, buf, 100000000);
 	i = 0;
-	while (i < bytes_read)
+	while (i < size)
 	{
-		ft_hexdump_byte((unsigned char)buf[i], row, col, total);
+		if (s1[i] != s2[i])
+			return (0);
 		i++;
 	}
-	free(buf);
+	return (1);
 }
 
-void	ft_process_arg(char *argv[], int i, char *row, int **coltotal)
+void	ft_put_ascii(t_tool *t, int size)
 {
-	char	*file;
-	int		fd;
+	int	i;
 
-	file = argv[i];
-	if (file[0] == '-' && file[1] == 'C' && file[2] == '\0')
+	if (t->mode != 'C')
 		return ;
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-		ft_error_open(i, argv);
-	else
+	write(1, "  |", 3);
+	i = 0;
+	while (i < size)
 	{
-		ft_copy_fd(fd, row, coltotal[0], coltotal[1]);
-		close(fd);
+		if ((unsigned char)t->buffer[i] >= 32
+			&& (unsigned char)t->buffer[i] <= 126)
+			write(1, &t->buffer[i], 1);
+		else
+			write(1, ".", 1);
+		i++;
 	}
+	write(1, "|", 1);
 }
 
-int	main(int argc, char *argv[])
+void	ft_print_content(t_tool *t, int size)
 {
-	char	row[16];
-	int		i;
-	int		col;
-	int		total;
-	int		*coltotal[2];
+	int	i;
 
-	col = 0;
-	total = 0;
-	coltotal[0] = &col;
-	coltotal[1] = &total;
-	if (argc < 2)
-		ft_copy_fd(0, row, &col, &total);
-	else
+	i = 0;
+	while (i < 16 && i < size)
 	{
-		i = 1;
-		while (i < argc)
+		if (t->mode == 'C' || i % 2 == 0)
+			write(1, " ", 1);
+		if (t->mode == 'C' && i == 8)
+			write(1, " ", 1);
+		if (t->mode == 'C')
+			ft_put_hex((unsigned char)t->buffer[i], 2);
+		else if (i + 1 < size)
 		{
-			ft_process_arg(argv, i, row, coltotal);
+			ft_put_hex((unsigned char)t->buffer[i + 1], 2);
+			ft_put_hex((unsigned char)t->buffer[i], 2);
 			i++;
 		}
+		else
+		{
+			write(1, "00", 2);
+			ft_put_hex((unsigned char)t->buffer[i], 2);
+		}
+		i++;
 	}
-	ft_hexdump_flush(row, &col, &total);
-	return (0);
+	ft_handle_padding(t, i, size);
+}
+
+void	ft_display_line(t_tool *t, int size)
+{
+	if (t->total > 0 && size == 16 && ft_is_equal(t->buffer, t->prev, 16))
+	{
+		if (t->star == 0)
+			write(1, "*\n", 2);
+		t->star = 1;
+		return ;
+	}
+	t->star = 0;
+	if (t->mode == 'C')
+	{
+		ft_put_hex(t->total, 8);
+		write(1, " ", 1);
+	}
+	else
+		ft_put_hex(t->total, 7);
+	ft_print_content(t, size);
+}
+
+int	ft_hexdump(char *prog, char *file, t_tool *t)
+{
+	int		fd;
+	int		ret;
+	char	c;
+
+	fd = 0;
+	if (file != NULL)
+		fd = open(file, O_RDONLY);
+	if (fd < 0)
+		return (ft_puterror(prog, file));
+	ret = read(fd, &c, 1);
+	while (ret > 0)
+	{
+		t->buffer[t->buffer_idx++] = c;
+		if (t->buffer_idx == 16)
+		{
+			ft_display_line(t, 16);
+			t->total += 16;
+			t->buffer_idx = 0;
+		}
+		ret = read(fd, &c, 1);
+	}
+	if (fd > 0)
+		close(fd);
+	return (ret);
 }
