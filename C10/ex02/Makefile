@@ -6,7 +6,7 @@
 #    By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/07/18 18:19:44 by joamunoz          #+#    #+#              #
-#    Updated: 2026/07/20 14:14:41 by joamunoz         ###   ########.fr        #
+#    Updated: 2026/07/25 23:30:05 by joamunoz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 INCLUDES = includes
 
-MY_SOURCES = ft_tail.c helpers.c
+MY_SOURCES = ft_tail.c main.c helpers.c
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
 
 all: $(NAME)
