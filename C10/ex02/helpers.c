@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 14:12:23 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/25 23:06:08 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/07/26 11:43:24 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ void	ft_putascii(int fd, char *str)
 
 int	ft_puterror(char *program_name, char *file_name)
 {
-	ft_putascii(2, basename(program_name));
-	write(2, ": ", 2);
+	ft_putascii(2, program_name);
+	write(2, ": cannot open '", 15);
 	ft_putascii(2, file_name);
-	write(2, ": ", 2);
+	write(2, "' for reading: ", 15);
 	ft_putascii(2, strerror(errno));
 	write(2, "\n", 1);
 	return (-1);
