@@ -7,7 +7,6 @@ typedef struct s_point
 void flood_util(char **tab, t_point size, t_point begin, char target)
 {
 	t_point next;
-
 	if (begin.x < 0 || begin.x >= size.x || begin.y < 0 || begin.y >= size.y)
 		return;
 	if (tab[begin.y][begin.x] != target)
