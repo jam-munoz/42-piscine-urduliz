@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bsq.h                                              :+:      :+:    :+:   */
+/*   ft_pow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/27 14:39:26 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/08/10 19:23:46 by joamunoz         ###   ########.fr       */
+/*   Created: 2026/08/02 23:45:29 by joamunoz          #+#    #+#             */
+/*   Updated: 2026/08/10 18:48:12 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BSQ_H
-# define BSQ_H
-
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct s_map
+int	ft_pow(int nb, int power)
 {
-	char	**grid;
-	int		cols;
-	int		rows;
-	char	empty;
-	char	full;
-	char	obstacle;
-}	t_map;
+	int	result;
 
-#endif
+	if (power < 0)
+		return (0);
+	result = 1;
+	while (power > 0)
+	{
+		if (power % 2 == 1)
+			result = result * nb;
+		nb = nb * nb;
+		power = power / 2;
+	}
+	return (result);
+}

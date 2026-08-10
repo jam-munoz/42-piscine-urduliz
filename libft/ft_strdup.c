@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 12:03:08 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/13 20:58:07 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/08/10 18:54:33 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	ft_strlen(char *str)
 {
-	int	i;
+	char	*p;
 
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
+	p = str;
+	while (*p != '\0')
+		p++;
+	return (p - str);
 }
 
 char	*ft_strdup(char *src)

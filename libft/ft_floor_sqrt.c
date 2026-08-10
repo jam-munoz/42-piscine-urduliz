@@ -1,9 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_floor_sqrt.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/03 12:55:36 by joamunoz          #+#    #+#             */
+/*   Updated: 2026/08/03 13:00:20 by joamunoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 int	ft_floor_sqrt(int nb)
 {
-	int	sqrt;
+	long	x;
+	long	y;
 
-	sqrt = 1;
-	while ((sqrt * sqrt) <= nb)
-		sqrt++;
-	return (sqrt - 1);
+	if (nb < 1)
+		return (0);
+	x = nb;
+	y = (x + 1) / 2;
+	while (y < x)
+	{
+		x = y;
+		y = (x + nb / x) / 2;
+	}
+	return ((int) x);
 }

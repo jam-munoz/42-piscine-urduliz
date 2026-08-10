@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 14:39:10 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/28 17:52:22 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/08/10 19:22:54 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	ft_get_cols(char *buf)
 	int	cols;
 
 	i = 0;
+	cols = 0;
 	while(buf[i] != '\n')
 		i++;
 	i++;
@@ -113,14 +114,13 @@ char **ft_get_grid(char *buf)
 	k = 0;
 	rows = ft_get_rows(buf);
 	cols = ft_get_cols(buf);
-	printf("cols: %d\n", cols);
 	grid = malloc((rows + 1) * sizeof(char *));
 	while (k < rows)
 	{
 		while (buf[i] && buf[i] != '\n')
 			i++;
 		i++;
-		grid[k] = ft_get_line(&buf[i], 5);
+		grid[k] = ft_get_line(&buf[i], cols);
 		k++;
 	}
 	grid[k] = NULL;
@@ -172,9 +172,7 @@ int	main(int argc, char *argv[])
 	t_map	*map;
 
 	if (argc < 2)
-	{
 		return (0);
-	}
 	i = 1;
 	while (i < argc)
 	{
@@ -189,7 +187,6 @@ int	main(int argc, char *argv[])
 		}
 		i++;
 	}
-	printf("row: %s\n", map->grid[0]);
 	printf("rows: %d, cols: %d\nempty char: %c\nfull char: %c\nobstacle: %c\n", map->rows, map->cols, map->empty, map->full, map->obstacle);
 	ft_print_map(map);
 	return (0);

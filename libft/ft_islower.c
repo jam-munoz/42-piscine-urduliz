@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bsq.h                                              :+:      :+:    :+:   */
+/*   ft_islower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/27 14:39:26 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/08/10 19:23:46 by joamunoz         ###   ########.fr       */
+/*   Created: 2026/08/08 19:15:21 by joamunoz          #+#    #+#             */
+/*   Updated: 2026/08/08 19:18:51 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BSQ_H
-# define BSQ_H
-
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct s_map
+int	ft_islower(int c)
 {
-	char	**grid;
-	int		cols;
-	int		rows;
-	char	empty;
-	char	full;
-	char	obstacle;
-}	t_map;
-
-#endif
+	return ('a' <= c && c <= 'z');
+}

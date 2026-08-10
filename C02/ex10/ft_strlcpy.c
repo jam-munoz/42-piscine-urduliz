@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/08 11:58:54 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/09 10:29:37 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/08/10 19:22:13 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ unsigned int	ft_strlen(char *str)
 unsigned int	ft_strlcpy(char *dest, char *src, unsigned int size)
 {
 	unsigned int	i;
-	
+
 	i = 0;
 	if (size > 0)
 	{

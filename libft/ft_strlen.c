@@ -6,16 +6,16 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 12:11:27 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/09 12:11:28 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/08/10 18:48:23 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_strlen(char *str)
 {
-	int	i;
+	char	*p;
 
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
+	p = str;
+	while (*p != '\0')
+		p++;
+	return (p - str);
 }

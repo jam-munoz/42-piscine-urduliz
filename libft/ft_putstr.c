@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 12:13:06 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/07/09 12:13:07 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/08/10 18:48:45 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 void	ft_putstr(char *str)
 {
-	int	i;
+	char	*p;
 
-	i = 0;
-	while (str[i] != '\0')
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
+	p = str;
+	while (*p != '\0')
+		p++;
+	write(1, str, p - str);
 }

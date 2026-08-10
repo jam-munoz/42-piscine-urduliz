@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bsq.h                                              :+:      :+:    :+:   */
+/*   ft_digit_count.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/27 14:39:26 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/08/10 19:23:46 by joamunoz         ###   ########.fr       */
+/*   Created: 2026/08/03 16:28:59 by joamunoz          #+#    #+#             */
+/*   Updated: 2026/08/10 18:46:52 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BSQ_H
-# define BSQ_H
-
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct s_map
+int	ft_digit_count(int nb)
 {
-	char	**grid;
-	int		cols;
-	int		rows;
-	char	empty;
-	char	full;
-	char	obstacle;
-}	t_map;
+	unsigned int	n;
 
-#endif
+	n = nb;
+	if (nb < 0)
+		n = -n;
+	if (n < 10)
+		return (1);
+	if (n < 100)
+		return (2);
+	if (n < 1000)
+		return (3);
+	if (n < 10000)
+		return (4);
+	if (n < 100000)
+		return (5);
+	if (n < 1000000)
+		return (6);
+	if (n < 10000000)
+		return (7);
+	if (n < 100000000)
+		return (8);
+	if (n < 1000000000)
+		return (9);
+	return (10);
+}
