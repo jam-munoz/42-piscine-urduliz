@@ -6,7 +6,7 @@
 /*   By: joamunoz <joamunoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 12:14:02 by joamunoz          #+#    #+#             */
-/*   Updated: 2026/08/10 18:49:07 by joamunoz         ###   ########.fr       */
+/*   Updated: 2026/10/04 22:53:08 by joamunoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,5 @@ void	ft_putnbr(int nb)
 	buf[--i] = n + '0';
 	if (nb < 0)
 		buf[--i] = '-';
-	write(1, buf + i, 11 - i);
+	write(STDOUT_FILENO, buf + i, 11 - i);
 }
